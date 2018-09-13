@@ -41,7 +41,7 @@ pipeline {
             // the image can only be used as an executable
             if ( !openshift.selector("bc", "wells").exists() ) {
               echo "Creating new application build config"
-              openshift.newBuild("alpine:3.8", "--source-image=wells-builder", "--allow-missing-imagestream-tags", "--name=wells", "--source-image-path=/go/bin/wells:.", """--dockerfile='FROM alpine:3.8
+              openshift.newBuild("openshift/alpine:3.7", "--source-image=wells-builder", "--allow-missing-imagestream-tags", "--name=wells", "--source-image-path=/go/bin/wells:.", """--dockerfile='FROM openshift/alpine:3.7
               RUN mkdir -p /app
               COPY wells /app/wells
               ENTRYPOINT [\"/app/wells\"]

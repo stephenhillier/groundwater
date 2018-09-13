@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 
 	"github.com/micro/go-micro"
 	k8s "github.com/micro/kubernetes/go/micro"
@@ -51,5 +52,7 @@ func main() {
 
 	pb.RegisterWellServiceHandler(srv.Server(), &service{repo})
 
-	srv.Run()
+	if err := srv.Run(); err != nil {
+		log.Println(err)
+	}
 }
