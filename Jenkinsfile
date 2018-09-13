@@ -1,5 +1,4 @@
 pipeline {
-  environment {}
   agent any
   stages {
     stage('Start pipeline') {
