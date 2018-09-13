@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package go.micro.srv.wells;
+
+service WellService {
+  rpc GetWells(GetRequest) returns (ListResponse) {}
+}
+
+message Well {
+  int32 id = 1;
+  int32 aquifer = 2;
+  string owner = 3;
+  double depth = 4;
+}
+
+message GetRequest {}
+
+message ListResponse {
+  repeated Well wells = 1;
+}
