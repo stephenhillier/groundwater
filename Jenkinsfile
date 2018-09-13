@@ -44,7 +44,7 @@ pipeline {
               openshift.newBuild("openshift/alpine:3.7", "--source-image=wells-builder", "--allow-missing-imagestream-tags", "--name=wells", "--source-image-path=/go/bin/wells:.", """--dockerfile='FROM openshift/alpine:3.7
               RUN mkdir -p /app
               COPY wells /app/wells
-              ENTRYPOINT [\"/app/wells\"]
+              ENTRYPOINT [\"/app/wells\", \"--server_address=0.0.0.0:8080\"]
               '""")
             } else {
               echo "Creating application image"
