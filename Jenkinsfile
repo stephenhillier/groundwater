@@ -22,7 +22,7 @@ pipeline {
             // unit tests are run during build (application will not be built if unit tests fail)
             if ( !openshift.selector("bc", "wells-builder").exists() ) {
               echo "Creating a new build config"
-              openshift.newBuild("https://github.com/stephenhillier/groundwater.git", "--strategy=docker", "--name=wells-builder" "--context-dir=wells/")
+              openshift.newBuild("https://github.com/stephenhillier/groundwater.git", "--strategy=docker", "--name=wells-builder", "--context-dir=wells/")
             } else {
               echo "Starting build"
               openshift.selector("bc", "wells-builder").startBuild("--wait")
