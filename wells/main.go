@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/micro/go-micro"
+	_ "github.com/micro/go-plugins/registry/kubernetes"
 	k8s "github.com/micro/kubernetes/go/micro"
 	pb "github.com/stephenhillier/groundwater/wells/proto/wells"
 )
