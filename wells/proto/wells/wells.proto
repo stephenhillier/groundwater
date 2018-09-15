@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package go.micro.srv.wells;
+package go.srv.wells;
 
 service WellService {
   rpc GetWells(GetRequest) returns (ListResponse) {}

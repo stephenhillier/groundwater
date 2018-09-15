@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net"
 
-	"github.com/micro/go-micro"
-	_ "github.com/micro/go-plugins/registry/kubernetes"
-	k8s "github.com/micro/kubernetes/go/micro"
 	pb "github.com/stephenhillier/groundwater/wells/proto/wells"
+	"google.golang.org/grpc"
 )
 
 // Repository is the set of methods available to use with a well data repo
@@ -29,13 +29,13 @@ type service struct {
 	repo Repository
 }
 
-func (s *service) GetWells(ctx context.Context, req *pb.GetRequest, res *pb.ListResponse) error {
+func (s *service) GetWells(ctx context.Context, req *pb.GetRequest) (*pb.ListResponse, error) {
 	wells := s.repo.GetAll()
-	res.Wells = wells
-	return nil
+	return &pb.ListResponse{Wells: wells}, nil
 }
 
 func main() {
+	port := 7777
 
 	// example wells
 	sampleWells := []*pb.Well{
@@ -46,14 +46,17 @@ func main() {
 
 	repo := &WellRepository{sampleWells}
 
-	srv := k8s.NewService(
-		micro.Name("wells"),
-	)
-	srv.Init()
-
-	pb.RegisterWellServiceHandler(srv.Server(), &service{repo})
-
-	if err := srv.Run(); err != nil {
-		log.Println(err)
+	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	if err != nil {
+		log.Fatalf("Failed to start listener: %v", err)
 	}
+
+	srv := grpc.NewServer()
+
+	pb.RegisterWellServiceServer(srv, &service{repo})
+
+	if err := srv.Serve(listen); err != nil {
+		log.Fatalf("Failed to start server: %s", err)
+	}
+
 }
