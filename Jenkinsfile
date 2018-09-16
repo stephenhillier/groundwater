@@ -28,10 +28,10 @@ pipeline {
             }
 
             echo "Waiting for builds from buildconfig wells-builder to finish"
-            def lastBuildNumber = openshift.selector("bc", "wells-builder").object().status.lastVersion
-            def lastBuild = openshift.selector("build", "wells-builder-${lastBuildNumber}")
+            def lastWellBuildNumber = openshift.selector("bc", "wells-builder").object().status.lastVersion
+            def lastWellBuild = openshift.selector("build", "wells-builder-${lastWellBuildNumber}")
             timeout(10) {
-              lastBuild.untilEach(1) {
+              lastWellBuild.untilEach(1) {
                 return it.object().status.phase == "Complete"
               }
             }
@@ -52,10 +52,10 @@ pipeline {
             }
 
             echo "Waiting for application build from wells to finish"
-            def lastAppBuildNumber = openshift.selector("bc", "wells").object().status.lastVersion
-            def lastAppBuild = openshift.selector("build", "wells-${lastAppBuildNumber}")
+            def lastWellAppNumber = openshift.selector("bc", "wells").object().status.lastVersion
+            def lastWellApp = openshift.selector("build", "wells-${lastWellAppNumber}")
             timeout(10) {
-              lastAppBuild.untilEach(1) {
+              lastWellApp.untilEach(1) {
                 return it.object().status.phase == "Complete"
               }
             }
@@ -77,10 +77,10 @@ pipeline {
             }
 
             echo "Waiting for builds from buildconfig aquifers-builder to finish"
-            def lastBuildNumber = openshift.selector("bc", "aquifers-builder").object().status.lastVersion
-            def lastBuild = openshift.selector("build", "aquifers-builder-${lastBuildNumber}")
+            def lastAquiferBuildNumber = openshift.selector("bc", "aquifers-builder").object().status.lastVersion
+            def lastAquiferBuild = openshift.selector("build", "aquifers-builder-${lastAquiferBuildNumber}")
             timeout(10) {
-              lastBuild.untilEach(1) {
+              lastAquiferBuild.untilEach(1) {
                 return it.object().status.phase == "Complete"
               }
             }
@@ -101,10 +101,10 @@ pipeline {
             }
 
             echo "Waiting for application build from aquifers to finish"
-            def lastAppBuildNumber = openshift.selector("bc", "aquifers").object().status.lastVersion
-            def lastAppBuild = openshift.selector("build", "aquifers-${lastAppBuildNumber}")
+            def lastAquiferAppBuildNumber = openshift.selector("bc", "aquifers").object().status.lastVersion
+            def lastAquiferAppBuild = openshift.selector("build", "aquifers-${lastAquiferAppBuildNumber}")
             timeout(10) {
-              lastAppBuild.untilEach(1) {
+              lastAquiferAppBuild.untilEach(1) {
                 return it.object().status.phase == "Complete"
               }
             }
@@ -127,10 +127,10 @@ pipeline {
             }
 
             echo "Waiting for builds from buildconfig api-builder to finish"
-            def lastBuildNumber = openshift.selector("bc", "api-builder").object().status.lastVersion
-            def lastBuild = openshift.selector("build", "api-builder-${lastBuildNumber}")
+            def lastAPIBuildNumber = openshift.selector("bc", "api-builder").object().status.lastVersion
+            def lastAPIBuild = openshift.selector("build", "api-builder-${lastAPIBuildNumber}")
             timeout(10) {
-              lastBuild.untilEach(1) {
+              lastAPIBuild.untilEach(1) {
                 return it.object().status.phase == "Complete"
               }
             }
@@ -151,10 +151,10 @@ pipeline {
             }
 
             echo "Waiting for application build from api to finish"
-            def lastAppBuildNumber = openshift.selector("bc", "api").object().status.lastVersion
-            def lastAppBuild = openshift.selector("build", "api-${lastAppBuildNumber}")
+            def lastAPIAppBuildNumber = openshift.selector("bc", "api").object().status.lastVersion
+            def lastAPIAppBuild = openshift.selector("build", "api-${lastAPIAppBuildNumber}")
             timeout(10) {
-              lastAppBuild.untilEach(1) {
+              lastAPIAppBuild.untilEach(1) {
                 return it.object().status.phase == "Complete"
               }
             }
