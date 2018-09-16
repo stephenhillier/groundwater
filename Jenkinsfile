@@ -21,7 +21,7 @@ pipeline {
             // unit tests are run during build (application will not be built if unit tests fail)
             if ( !openshift.selector("bc", "wells-builder").exists() ) {
               echo "Creating a new build config"
-              openshift.newBuild("https://github.com/stephenhillier/groundwater.git", "--strategy=docker", "--name=wells-builder", "--context-dir=wells/")
+              openshift.newBuild("https://github.com/stephenhillier/groundwater.git", "--strategy=docker", "--name=wells-builder", "--context-dir=wells/", "-l app-name=groundwater")
             } else {
               echo "Starting build"
               openshift.selector("bc", "wells-builder").startBuild("--wait")
@@ -41,7 +41,7 @@ pipeline {
             // the image can only be used as an executable
             if ( !openshift.selector("bc", "wells").exists() ) {
               echo "Creating new application build config"
-              openshift.newBuild("openshift/alpine:3.7", "--source-image=wells-builder", "--allow-missing-imagestream-tags", "--name=wells", "--source-image-path=/go/bin/wells:.", """--dockerfile='FROM openshift/alpine:3.7
+              openshift.newBuild("openshift/alpine:3.7", "--source-image=wells-builder", "--allow-missing-imagestream-tags", "--name=wells", "--source-image-path=/go/bin/wells:.", "-l app-name=groundwater", """--dockerfile='FROM openshift/alpine:3.7
               RUN mkdir -p /app
               COPY wells /app/wells
               ENTRYPOINT [\"/app/wells\"]
@@ -79,7 +79,7 @@ pipeline {
             // if a deployment config does not exist for this pull request, create one
             if ( !openshift.selector("dc", "wells-dev").exists() ) {
               echo "Creating a new deployment config for WELLS"
-              openshift.newApp("wells:dev", "--name=wells-dev").narrow("dc").expose("--port=8000")
+              openshift.newApp("wells:dev", "--name=wells-dev", "-l app-name=groundwater").narrow("dc").expose("--port=8000")
             }
 
             echo "Waiting for deployment to dev..."
