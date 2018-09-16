@@ -45,7 +45,7 @@ func main() {
 	router := chi.NewRouter()
 
 	// Start Aquifers client
-	aqConn, err := grpc.Dial("127.0.0.1:7778", grpc.WithInsecure())
+	aqConn, err := grpc.Dial("aquifers:7778", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,7 +55,7 @@ func main() {
 	log.Print("Aquifers client ready")
 
 	// Start Wells client
-	wellConn, err := grpc.Dial("127.0.0.1:7777", grpc.WithInsecure())
+	wellConn, err := grpc.Dial("wells:7777", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
