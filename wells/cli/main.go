@@ -23,9 +23,27 @@ func main() {
 
 	client := pb.NewWellServiceClient(conn)
 
+	health, err := client.Health(context.Background(), &pb.GetRequest{})
+	if health.Ok != true || err != nil {
+		log.Println(err)
+	}
+
+	log.Println("Health check passed")
+
 	wells, err := client.GetWells(context.Background(), &pb.GetRequest{})
 	if err != nil {
 		log.Println(err)
 	}
 	log.Println(wells)
+
+	searchParams := &pb.WellSearchRequest{
+		Aquifer: 1,
+		Owner:   "Steve",
+	}
+	wellSearch, err := client.FindWells(context.Background(), searchParams)
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(wellSearch)
 }

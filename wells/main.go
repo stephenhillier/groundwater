@@ -13,6 +13,7 @@ import (
 // Repository is the set of methods available to use with a well data repo
 type Repository interface {
 	GetAll() []*pb.Well
+	Search(*pb.WellSearchRequest) ([]*pb.Well, error)
 }
 
 // WellRepository is a stand-in for a datastore
@@ -25,6 +26,23 @@ func (repo *WellRepository) GetAll() []*pb.Well {
 	return repo.wells
 }
 
+// Search returns wells meeting all of the provided search criteria
+func (repo *WellRepository) Search(req *pb.WellSearchRequest) ([]*pb.Well, error) {
+	search := make([]*pb.Well, 0)
+
+	for _, well := range repo.wells {
+		if (req.Owner == "" || well.Owner == req.Owner) &&
+			(req.Aquifer == 0 || well.Aquifer == req.Aquifer) {
+			search = append(search, well)
+		}
+	}
+
+	return search, nil
+}
+
+// service represents a Wells service with a repository of wells.
+// The repository can be anything (a database, collection of fake objects, etc)
+// as long as it implements methods defined in the Repository interface.
 type service struct {
 	repo Repository
 }
@@ -32,6 +50,15 @@ type service struct {
 func (s *service) GetWells(ctx context.Context, req *pb.GetRequest) (*pb.ListResponse, error) {
 	wells := s.repo.GetAll()
 	return &pb.ListResponse{Wells: wells}, nil
+}
+
+func (s *service) FindWells(ctx context.Context, req *pb.WellSearchRequest) (*pb.ListResponse, error) {
+	wells, err := s.repo.Search(req)
+	return &pb.ListResponse{Wells: wells}, err
+}
+
+func (s *service) Health(ctx context.Context, req *pb.GetRequest) (*pb.HealthResponse, error) {
+	return &pb.HealthResponse{Ok: true}, nil
 }
 
 func main() {
