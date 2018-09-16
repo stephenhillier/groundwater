@@ -1,1 +1,1 @@
-Testing go-micro and https://github.com/micro/kubernetes with OpenShift
+Testing gRPC services with OpenShift
