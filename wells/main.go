@@ -82,6 +82,8 @@ func main() {
 
 	pb.RegisterWellServiceServer(srv, &service{repo})
 
+	log.Println("Listening on port", port)
+
 	if err := srv.Serve(listen); err != nil {
 		log.Fatalf("Failed to start server: %s", err)
 	}
