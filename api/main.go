@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
@@ -11,6 +10,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	aquifers "github.com/stephenhillier/groundwater/aquifers/proto/aquifers"
+
 	wells "github.com/stephenhillier/groundwater/wells/proto/wells"
 	"google.golang.org/grpc"
 )
@@ -38,13 +38,7 @@ func (api *API) GetAquifer(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	response, err := json.Marshal(aq)
-	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
-	}
-
-	w.WriteHeader(http.StatusOK)
-	w.Write(response)
+	render.JSON(w, req, aq)
 }
 
 func main() {
