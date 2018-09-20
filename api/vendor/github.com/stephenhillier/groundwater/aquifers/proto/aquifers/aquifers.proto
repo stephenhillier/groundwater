@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package go.srv.aquifers;
 
-import "wells/proto/wells/wells.proto";
+import "github.com/stephenhillier/groundwater/wells/proto/wells/wells.proto";
 
 service AquiferService {
   rpc GetAquifer(SingleAquiferRequest) returns (Aquifer) {}
