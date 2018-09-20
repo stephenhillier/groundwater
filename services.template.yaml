@@ -1,0 +1,765 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: groundwater
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: api
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: api:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: "FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY
+        api /app/api\n              ENTRYPOINT [\"/app/api\"]\n              "
+      images:
+      - from:
+          kind: ImageStreamTag
+          name: api-builder:latest
+          namespace: csnr-devops-lab-tools
+        paths:
+        - destinationDir: .
+          sourcePath: /go/bin/api
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: alpine:3.7
+          namespace: openshift
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: api-builder:latest
+          namespace: csnr-devops-lab-tools
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: api-builder
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: api-builder:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: api
+      git:
+        uri: https://github.com/stephenhillier/groundwater.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: golang:1.10-alpine
+          namespace: csnr-devops-lab-tools
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: aquifers
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: aquifers:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: "FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY
+        aquifers /app/aquifers\n              ENTRYPOINT [\"/app/aquifers\"]\n              "
+      images:
+      - from:
+          kind: ImageStreamTag
+          name: aquifers-builder:latest
+          namespace: csnr-devops-lab-tools
+        paths:
+        - destinationDir: .
+          sourcePath: /go/bin/aquifers
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: alpine:3.7
+          namespace: openshift
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: aquifers-builder:latest
+          namespace: csnr-devops-lab-tools
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: aquifers-builder
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: aquifers-builder:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: aquifers
+      git:
+        uri: https://github.com/stephenhillier/groundwater.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: golang:1.10-alpine
+          namespace: csnr-devops-lab-tools
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: wells
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wells:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: "FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY
+        wells /app/wells\n              ENTRYPOINT [\"/app/wells\"]\n              "
+      images:
+      - from:
+          kind: ImageStreamTag
+          name: wells-builder:latest
+          namespace: csnr-devops-lab-tools
+        paths:
+        - destinationDir: .
+          sourcePath: /go/bin/wells
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: alpine:3.7
+          namespace: openshift
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: wells-builder:latest
+          namespace: csnr-devops-lab-tools
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: wells-builder
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wells-builder:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: wells
+      git:
+        uri: https://github.com/stephenhillier/groundwater.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: golang:1.10-alpine
+          namespace: csnr-devops-lab-tools
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 3
+    labels:
+      app-name: groundwater
+    name: api
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/api:dev
+      generation: 3
+      importPolicy: {}
+      name: dev
+      referencePolicy:
+        type: Source
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/api:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app-name: groundwater
+    name: api-builder
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/api-builder:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app-name: groundwater
+    name: aquifers
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers:dev
+      generation: 2
+      importPolicy: {}
+      name: dev
+      referencePolicy:
+        type: Source
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app-name: groundwater
+    name: aquifers-builder
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers-builder:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app-name: groundwater
+    name: wells
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells:dev
+      generation: 2
+      importPolicy: {}
+      name: dev
+      referencePolicy:
+        type: Source
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app-name: groundwater
+    name: wells-builder
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells-builder:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: wells
+      app-name: groundwater
+    name: api
+  spec:
+    replicas: 2
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: api
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          cpu: 200m
+          memory: 200Mi
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: wells
+          app-name: groundwater
+          deploymentconfig: api
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-tools/api
+          imagePullPolicy: IfNotPresent
+          name: api
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - api
+        from:
+          kind: ImageStreamTag
+          name: api:dev
+          namespace: csnr-devops-lab-tools
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: wells
+      app-name: groundwater
+    name: aquifers
+  spec:
+    replicas: 2
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: aquifers
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          cpu: 200m
+          memory: 200Mi
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: wells
+          app-name: groundwater
+          deploymentconfig: aquifers
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers
+          imagePullPolicy: IfNotPresent
+          name: aquifers
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - aquifers
+        from:
+          kind: ImageStreamTag
+          name: aquifers:dev
+          namespace: csnr-devops-lab-tools
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: wells
+      app-name: groundwater
+    name: wells
+  spec:
+    replicas: 2
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: wells
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          cpu: 200m
+          memory: 200Mi
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: wells
+          app-name: groundwater
+          deploymentconfig: wells
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells
+          imagePullPolicy: IfNotPresent
+          name: wells
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - wells
+        from:
+          kind: ImageStreamTag
+          name: wells:dev
+          namespace: csnr-devops-lab-tools
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: wells
+      app-name: groundwater
+    name: api
+  spec:
+    ports:
+    - port: 8000
+      protocol: TCP
+      targetPort: 8000
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: api
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: wells
+      app-name: groundwater
+    name: aquifers
+  spec:
+    ports:
+    - port: 7778
+      protocol: TCP
+      targetPort: 7778
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: aquifers
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: wells
+      app-name: groundwater
+    name: wells
+  spec:
+    ports:
+    - port: 7777
+      protocol: TCP
+      targetPort: 7777
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: wells
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: null
+    labels:
+      app: wells
+      app-name: groundwater
+    name: api
+  spec:
+    host: api-csnr-devops-lab-tools.pathfinder.gov.bc.ca
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: api
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2018-09-16T23:28:07Z
+        status: "True"
+        type: Admitted
+      host: api-csnr-devops-lab-tools.pathfinder.gov.bc.ca
+      routerName: router
+      wildcardPolicy: None
