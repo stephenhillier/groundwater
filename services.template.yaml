@@ -30,7 +30,7 @@ objects:
       - from:
           kind: ImageStreamTag
           name: api-builder:latest
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
         paths:
         - destinationDir: .
           sourcePath: /go/bin/api
@@ -48,7 +48,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: api-builder:latest
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: ImageChange
     - type: ConfigChange
     - imageChange: {}
@@ -84,7 +84,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: golang:1.10-alpine
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: Docker
     successfulBuildsHistoryLimit: 5
     triggers:
@@ -119,7 +119,7 @@ objects:
       - from:
           kind: ImageStreamTag
           name: aquifers-builder:latest
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
         paths:
         - destinationDir: .
           sourcePath: /go/bin/aquifers
@@ -137,7 +137,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: aquifers-builder:latest
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: ImageChange
     - type: ConfigChange
     - imageChange: {}
@@ -173,7 +173,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: golang:1.10-alpine
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: Docker
     successfulBuildsHistoryLimit: 5
     triggers:
@@ -208,7 +208,7 @@ objects:
       - from:
           kind: ImageStreamTag
           name: wells-builder:latest
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
         paths:
         - destinationDir: .
           sourcePath: /go/bin/wells
@@ -226,7 +226,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: wells-builder:latest
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: ImageChange
     - type: ConfigChange
     - imageChange: {}
@@ -262,7 +262,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: golang:1.10-alpine
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: Docker
     successfulBuildsHistoryLimit: 5
     triggers:
@@ -288,7 +288,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/api:dev
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api:dev
       generation: 3
       importPolicy: {}
       name: dev
@@ -297,7 +297,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/api:latest
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -322,7 +322,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/api-builder:latest
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api-builder:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -347,7 +347,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers:dev
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers:dev
       generation: 2
       importPolicy: {}
       name: dev
@@ -356,7 +356,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers:latest
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -381,7 +381,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers-builder:latest
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers-builder:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -406,7 +406,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells:dev
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells:dev
       generation: 2
       importPolicy: {}
       name: dev
@@ -415,7 +415,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells:latest
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -440,7 +440,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells-builder:latest
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells-builder:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -492,7 +492,7 @@ objects:
           deploymentconfig: api
       spec:
         containers:
-        - image: docker-registry.default.svc:5000/csnr-devops-lab-tools/api
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api
           imagePullPolicy: IfNotPresent
           name: api
           resources: {}
@@ -513,7 +513,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: api:dev
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: ImageChange
   status:
     availableReplicas: 0
@@ -566,7 +566,7 @@ objects:
           deploymentconfig: aquifers
       spec:
         containers:
-        - image: docker-registry.default.svc:5000/csnr-devops-lab-tools/aquifers
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers
           imagePullPolicy: IfNotPresent
           name: aquifers
           resources: {}
@@ -587,7 +587,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: aquifers:dev
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: ImageChange
   status:
     availableReplicas: 0
@@ -640,7 +640,7 @@ objects:
           deploymentconfig: wells
       spec:
         containers:
-        - image: docker-registry.default.svc:5000/csnr-devops-lab-tools/wells
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells
           imagePullPolicy: IfNotPresent
           name: wells
           resources: {}
@@ -661,7 +661,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: wells:dev
-          namespace: csnr-devops-lab-tools
+          namespace: csnr-devops-lab-deploy
       type: ImageChange
   status:
     availableReplicas: 0
@@ -744,7 +744,7 @@ objects:
       app-name: groundwater
     name: api
   spec:
-    host: api-csnr-devops-lab-tools.pathfinder.gov.bc.ca
+    host: api-csnr-devops-lab-deploy.pathfinder.gov.bc.ca
     tls:
       insecureEdgeTerminationPolicy: Redirect
       termination: edge
@@ -759,6 +759,6 @@ objects:
       - lastTransitionTime: 2018-09-16T23:28:07Z
         status: "True"
         type: Admitted
-      host: api-csnr-devops-lab-tools.pathfinder.gov.bc.ca
+      host: api-csnr-devops-lab-deploy.pathfinder.gov.bc.ca
       routerName: router
       wildcardPolicy: None
