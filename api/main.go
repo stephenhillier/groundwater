@@ -10,8 +10,8 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	aquifers "github.com/stephenhillier/groundwater/aquifers/proto/aquifers"
-
 	wells "github.com/stephenhillier/groundwater/wells/proto/wells"
+
 	"google.golang.org/grpc"
 )
 
@@ -38,7 +38,7 @@ func (api *API) GetAquifer(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	aq.Wells, err = api.wells.FindWells(context.Background(), &wells.WellSearchRequest{Aquifer: id})
+	aq.Wells, err = api.wells.FindWells(context.Background(), &wells.WellSearchRequest{Aquifer: int32(id)})
 
 	render.JSON(w, req, aq)
 }

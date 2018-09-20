@@ -17,6 +17,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:a39ea2d8215dff5584f122a326e8b752d1765b76e751cbd1c2c974ed5ab4e3e8"
+  name = "github.com/stephenhillier/groundwater"
+  packages = ["wells/proto/wells"]
+  pruneopts = "UT"
+  revision = "01afd882480a8f6d1057bca3543a92c373e83e30"
+
+[[projects]]
+  branch = "master"
   digest = "1:deafe4ab271911fec7de5b693d7faae3f38796d9eb8622e2b9e7df42bb3dfea9"
   name = "golang.org/x/net"
   packages = [
@@ -110,6 +118,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/golang/protobuf/proto",
+    "github.com/stephenhillier/groundwater/wells/proto/wells",
     "golang.org/x/net/context",
     "google.golang.org/grpc",
   ]
