@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package go.srv.aquifers;
 
+import "wells/proto/wells/wells.proto";
+
 service AquiferService {
   rpc GetAquifer(SingleAquiferRequest) returns (Aquifer) {}
 }
@@ -10,6 +12,7 @@ message Aquifer {
   int32 id = 1;
   string name = 2;
   double volume = 3;
+  repeated wells.Well wells = 4;
 }
 
 message SingleAquiferRequest {

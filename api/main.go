@@ -38,6 +38,8 @@ func (api *API) GetAquifer(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	aq.Wells, err = api.wells.FindWells(context.Background(), &wells.WellSearchRequest{Aquifer: id})
+
 	render.JSON(w, req, aq)
 }
 

@@ -53,14 +53,8 @@ pipeline {
               }
             }
 
-            // start building an application image.
-            // this is a chained build; only the application binary will be brought forward from the builder image.
-
-            echo "Creating application images"
-            openshift.selector("bc", "wells").startBuild("--wait")
-            openshift.selector("bc", "aquifers").startBuild("--wait")
-            openshift.selector("bc", "api").startBuild("--wait")
-
+            sleep(5)
+            // application builds begin automatically
 
             echo "Waiting for application build from wells to finish"
             def lastWellAppNumber = openshift.selector("bc", "wells").object().status.lastVersion
