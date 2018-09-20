@@ -266,7 +266,6 @@ objects:
       type: Docker
     successfulBuildsHistoryLimit: 5
     triggers:
-      type: Generic
     - type: ConfigChange
     - imageChange: {}
       type: ImageChange
