@@ -40,6 +40,12 @@ func (api *API) GetAquifer(w http.ResponseWriter, req *http.Request) {
 
 	aq.Wells, err = api.wells.FindWells(context.Background(), &wells.WellSearchRequest{Aquifer: int32(id)})
 
+	if err != nil {
+		log.Println(err)
+		// todo: decide what else to do with this error (currently, there will simply be no additional wells data attached
+		// to the aquifer response)
+	}
+
 	render.JSON(w, req, aq)
 }
 
