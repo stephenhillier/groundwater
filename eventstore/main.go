@@ -15,7 +15,7 @@ import (
 
 const (
 	clientID = "event-store-api"
-	natsURL  = "localhost:4222"
+	natsURL  = "nats:4222"
 	grpcPort = "9000"
 )
 
@@ -58,7 +58,7 @@ func main() {
 
 	c, err := nats.NewEncodedConn(nc, protobuf.PROTOBUF_ENCODER)
 	defer c.Close()
-	nc.Close()
+	defer nc.Close()
 
 	natsService := &server{c}
 
