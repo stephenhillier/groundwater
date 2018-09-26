@@ -16,12 +16,33 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:712c928c01f1b31e39fdf20ab6f9225699b57146d845aeb4f5144dbfedc9b3ad"
+  name = "github.com/nats-io/go-nats"
+  packages = [
+    ".",
+    "encoders/builtin",
+    "encoders/protobuf",
+    "util",
+  ]
+  pruneopts = "UT"
+  revision = "fb0396ee0bdb8018b0fef30d6d1de798ce99cd05"
+  version = "v1.6.0"
+
+[[projects]]
+  digest = "1:c3cd663f2f30b92536b9f290ac85c6310dae36a14cb8961553ae9ccf0d85ae41"
+  name = "github.com/nats-io/nuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "289cccf02c178dc782430d534e3c1f5b72af807f"
+  version = "v1.0.0"
+
+[[projects]]
   branch = "master"
   digest = "1:a39ea2d8215dff5584f122a326e8b752d1765b76e751cbd1c2c974ed5ab4e3e8"
   name = "github.com/stephenhillier/groundwater"
   packages = ["wells/proto/wells"]
   pruneopts = "UT"
-  revision = "01afd882480a8f6d1057bca3543a92c373e83e30"
+  revision = "9521c0e3bc12fc7e84303b06948cf25c6c2db0b2"
 
 [[projects]]
   branch = "master"
@@ -37,15 +58,15 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2"
+  revision = "f04abc6bdfa7a0171a8a0c9fd2ada9391044d056"
 
 [[projects]]
   branch = "master"
-  digest = "1:199248809ceaae02531db528e4e72d0d46eac33028bdf416ec5839bd8b35a1f7"
+  digest = "1:94952e2a064741ba4fb43b58794268a6798461f533c0c884f3c771a281357ee4"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
-  revision = "1561086e645b2809fb9f8a1e2a38160bf8d53bf4"
+  revision = "b09afc3d579e346c4a7e4705953acaf6f9e551bd"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -76,7 +97,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "c3f76f3b92d1ffa4c58a9ff842a58b8877655e0f"
+  revision = "0e822944c569bf5c9afd034adaa56208bd2906ac"
 
 [[projects]]
   digest = "1:ab8e92d746fb5c4c18846b0879842ac8e53b3d352449423d0924a11f1020ae1b"
@@ -118,6 +139,8 @@
   analyzer-version = 1
   input-imports = [
     "github.com/golang/protobuf/proto",
+    "github.com/nats-io/go-nats",
+    "github.com/nats-io/go-nats/encoders/protobuf",
     "github.com/stephenhillier/groundwater/wells/proto/wells",
     "golang.org/x/net/context",
     "google.golang.org/grpc",

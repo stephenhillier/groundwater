@@ -6,6 +6,9 @@ import (
 	"log"
 	"net"
 
+	"github.com/nats-io/go-nats/encoders/protobuf"
+
+	nats "github.com/nats-io/go-nats"
 	pb "github.com/stephenhillier/groundwater/aquifers/proto/aquifers"
 	"google.golang.org/grpc"
 )
@@ -56,6 +59,18 @@ func main() {
 
 	repo := &AquiferRepository{sampleAquifers}
 
+	nc, err := nats.Connect("nats:4222")
+	if err != nil {
+		log.Println("Error connecting to NATS:", err)
+	}
+
+	ncPb, err := nats.NewEncodedConn(nc, protobuf.PROTOBUF_ENCODER)
+	if err != nil {
+		log.Println("Error created encoded connection:", err)
+	}
+
+	go listenForEvents(ncPb)
+
 	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatal(err)
@@ -68,4 +83,17 @@ func main() {
 	if err := srv.Serve(listen); err != nil {
 		log.Fatalf("Failed to start server: %s", err)
 	}
+}
+
+func listenForEvents(c *nats.EncodedConn) {
+	ch := make(chan *nats.Msg, 64)
+	c.Subscribe("aquifer-create", func(m *nats.Msg) {
+		ch <- m
+	})
+
+	for {
+		msg := <-ch
+		log.Println(string(msg.Data))
+	}
+
 }

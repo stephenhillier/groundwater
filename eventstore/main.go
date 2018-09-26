@@ -6,6 +6,8 @@ import (
 	"log"
 	"net"
 
+	"github.com/nats-io/go-nats/encoders/protobuf"
+
 	nats "github.com/nats-io/go-nats"
 	pb "github.com/stephenhillier/groundwater/eventstore/proto/events"
 	grpc "google.golang.org/grpc"
@@ -18,13 +20,15 @@ const (
 )
 
 type server struct {
-	nats *nats.Conn
+	nats *nats.EncodedConn
 }
 
-func publishEvent(nc *nats.Conn, event *pb.Event) {
-	eventMsg := []byte(event.EventData)
-	nc.Publish(event.EventType, eventMsg)
-	log.Println("Published message:", event.EventType)
+func publishEvent(nc *nats.EncodedConn, event *pb.Event) {
+	err := nc.Publish(event.EventType, event)
+	if err != nil {
+		log.Println("Error publishing message:", err)
+	}
+	log.Println("Published message:", event.EventType, event)
 }
 
 func (s *server) CreateEvent(ctx context.Context, event *pb.Event) (*pb.Response, error) {
@@ -33,14 +37,33 @@ func (s *server) CreateEvent(ctx context.Context, event *pb.Event) (*pb.Response
 	return &pb.Response{Success: true}, nil
 }
 
+// func (s *server) sampleMsg() {
+// 	for {
+// 		time.Sleep(1 * time.Second)
+// 		s.CreateEvent(context.Background(), &pb.Event{
+// 			EventId:       "aaa1",
+// 			EventType:     "aquifer-create",
+// 			AggregateId:   "aaa",
+// 			AggregateType: "aquifers",
+// 			EventData:     "A1",
+// 		})
+// 	}
+// }
+
 func main() {
 	nc, err := nats.Connect(natsURL)
 	if err != nil {
 		log.Println("Error connecting to NATS:", err)
 	}
 
+	c, err := nats.NewEncodedConn(nc, protobuf.PROTOBUF_ENCODER)
+	defer c.Close()
+	nc.Close()
+
+	natsService := &server{c}
+
 	srv := grpc.NewServer()
-	pb.RegisterEventServiceServer(srv, &server{nc})
+	pb.RegisterEventServiceServer(srv, natsService)
 
 	listen, err := net.Listen("tcp", fmt.Sprintf(":%v", grpcPort))
 	if err != nil {
