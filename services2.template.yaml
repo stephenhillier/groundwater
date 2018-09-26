@@ -1,0 +1,1029 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: GroundwaterTemplate
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"labels":{"app-name":"groundwater"},"name":"api","namespace":"csnr-devops-lab-deploy"},"spec":{"failedBuildsHistoryLimit":5,"nodeSelector":null,"output":{"to":{"kind":"ImageStreamTag","name":"api:latest"}},"postCommit":{},"resources":{},"runPolicy":"Serial","source":{"dockerfile":"FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY api /app/api\n              ENTRYPOINT [\"/app/api\"]\n              ","images":[{"from":{"kind":"ImageStreamTag","name":"api-builder:latest","namespace":"csnr-devops-lab-deploy"},"paths":[{"destinationDir":".","sourcePath":"/go/bin/api"}]}],"type":"Dockerfile"},"strategy":{"dockerStrategy":{"from":{"kind":"ImageStreamTag","name":"alpine:3.7","namespace":"openshift"}},"type":"Docker"},"successfulBuildsHistoryLimit":5,"triggers":[{"imageChange":{"from":{"kind":"ImageStreamTag","name":"api-builder:latest","namespace":"csnr-devops-lab-deploy"}},"type":"ImageChange"},{"type":"ConfigChange"},{"imageChange":{},"type":"ImageChange"}]},"status":{"lastVersion":0}}
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: api
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: api:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: "FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY
+        api /app/api\n              ENTRYPOINT [\"/app/api\"]\n              "
+      images:
+      - as: null
+        from:
+          kind: ImageStreamTag
+          name: api-builder:latest
+          namespace: csnr-devops-lab-deploy
+        paths:
+        - destinationDir: .
+          sourcePath: /go/bin/api
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: alpine:3.7
+          namespace: openshift
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: api-builder:latest
+          namespace: csnr-devops-lab-deploy
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"labels":{"app-name":"groundwater"},"name":"api-builder","namespace":"csnr-devops-lab-deploy"},"spec":{"failedBuildsHistoryLimit":5,"nodeSelector":null,"output":{"to":{"kind":"ImageStreamTag","name":"api-builder:latest"}},"postCommit":{},"resources":{},"runPolicy":"Serial","source":{"contextDir":"api","git":{"uri":"https://github.com/stephenhillier/groundwater.git"},"type":"Git"},"strategy":{"dockerStrategy":{"from":{"kind":"ImageStreamTag","name":"golang:1.10-alpine","namespace":"csnr-devops-lab-deploy"}},"type":"Docker"},"successfulBuildsHistoryLimit":5,"triggers":[{"type":"ConfigChange"},{"imageChange":{},"type":"ImageChange"}]},"status":{"lastVersion":0}}
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: api-builder
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: api-builder:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: api
+      git:
+        uri: https://github.com/stephenhillier/groundwater.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: golang:1.10-alpine
+          namespace: csnr-devops-lab-deploy
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"labels":{"app-name":"groundwater"},"name":"aquifers","namespace":"csnr-devops-lab-deploy"},"spec":{"failedBuildsHistoryLimit":5,"nodeSelector":null,"output":{"to":{"kind":"ImageStreamTag","name":"aquifers:latest"}},"postCommit":{},"resources":{},"runPolicy":"Serial","source":{"dockerfile":"FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY aquifers /app/aquifers\n              ENTRYPOINT [\"/app/aquifers\"]\n              ","images":[{"from":{"kind":"ImageStreamTag","name":"aquifers-builder:latest","namespace":"csnr-devops-lab-deploy"},"paths":[{"destinationDir":".","sourcePath":"/go/bin/aquifers"}]}],"type":"Dockerfile"},"strategy":{"dockerStrategy":{"from":{"kind":"ImageStreamTag","name":"alpine:3.7","namespace":"openshift"}},"type":"Docker"},"successfulBuildsHistoryLimit":5,"triggers":[{"imageChange":{"from":{"kind":"ImageStreamTag","name":"aquifers-builder:latest","namespace":"csnr-devops-lab-deploy"}},"type":"ImageChange"},{"type":"ConfigChange"},{"imageChange":{},"type":"ImageChange"}]},"status":{"lastVersion":0}}
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: aquifers
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: aquifers:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: "FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY
+        aquifers /app/aquifers\n              ENTRYPOINT [\"/app/aquifers\"]\n              "
+      images:
+      - as: null
+        from:
+          kind: ImageStreamTag
+          name: aquifers-builder:latest
+          namespace: csnr-devops-lab-deploy
+        paths:
+        - destinationDir: .
+          sourcePath: /go/bin/aquifers
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: alpine:3.7
+          namespace: openshift
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: aquifers-builder:latest
+          namespace: csnr-devops-lab-deploy
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"labels":{"app-name":"groundwater"},"name":"aquifers-builder","namespace":"csnr-devops-lab-deploy"},"spec":{"failedBuildsHistoryLimit":5,"nodeSelector":null,"output":{"to":{"kind":"ImageStreamTag","name":"aquifers-builder:latest"}},"postCommit":{},"resources":{},"runPolicy":"Serial","source":{"contextDir":"aquifers","git":{"uri":"https://github.com/stephenhillier/groundwater.git"},"type":"Git"},"strategy":{"dockerStrategy":{"from":{"kind":"ImageStreamTag","name":"golang:1.10-alpine","namespace":"csnr-devops-lab-deploy"}},"type":"Docker"},"successfulBuildsHistoryLimit":5,"triggers":[{"type":"ConfigChange"},{"imageChange":{},"type":"ImageChange"}]},"status":{"lastVersion":0}}
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: aquifers-builder
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: aquifers-builder:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: aquifers
+      git:
+        uri: https://github.com/stephenhillier/groundwater.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: golang:1.10-alpine
+          namespace: csnr-devops-lab-deploy
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: eventstore
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: eventstore:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: "FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY
+        eventstore /app/eventstore\n              ENTRYPOINT [\"/app/eventstore\"]\n
+        \            "
+      images:
+      - as: null
+        from:
+          kind: ImageStreamTag
+          name: eventstore-builder:latest
+          namespace: csnr-devops-lab-deploy
+        paths:
+        - destinationDir: .
+          sourcePath: /go/bin/eventstore
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: alpine:3.7
+          namespace: openshift
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: eventstore-builder:latest
+          namespace: csnr-devops-lab-deploy
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: eventstore-builder
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: eventstore-builder:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: eventstore
+      git:
+        uri: https://github.com/stephenhillier/groundwater.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: golang:1.10-alpine
+          namespace: csnr-devops-lab-deploy
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"labels":{"app-name":"groundwater"},"name":"wells","namespace":"csnr-devops-lab-deploy"},"spec":{"failedBuildsHistoryLimit":5,"nodeSelector":null,"output":{"to":{"kind":"ImageStreamTag","name":"wells:latest"}},"postCommit":{},"resources":{},"runPolicy":"Serial","source":{"dockerfile":"FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY wells /app/wells\n              ENTRYPOINT [\"/app/wells\"]\n              ","images":[{"from":{"kind":"ImageStreamTag","name":"wells-builder:latest","namespace":"csnr-devops-lab-deploy"},"paths":[{"destinationDir":".","sourcePath":"/go/bin/wells"}]}],"type":"Dockerfile"},"strategy":{"dockerStrategy":{"from":{"kind":"ImageStreamTag","name":"alpine:3.7","namespace":"openshift"}},"type":"Docker"},"successfulBuildsHistoryLimit":5,"triggers":[{"imageChange":{"from":{"kind":"ImageStreamTag","name":"wells-builder:latest","namespace":"csnr-devops-lab-deploy"}},"type":"ImageChange"},{"type":"ConfigChange"},{"imageChange":{},"type":"ImageChange"}]},"status":{"lastVersion":0}}
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: wells
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wells:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: "FROM openshift/alpine:3.7\n              RUN mkdir -p /app\n              COPY
+        wells /app/wells\n              ENTRYPOINT [\"/app/wells\"]\n              "
+      images:
+      - as: null
+        from:
+          kind: ImageStreamTag
+          name: wells-builder:latest
+          namespace: csnr-devops-lab-deploy
+        paths:
+        - destinationDir: .
+          sourcePath: /go/bin/wells
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: alpine:3.7
+          namespace: openshift
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: wells-builder:latest
+          namespace: csnr-devops-lab-deploy
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"labels":{"app-name":"groundwater"},"name":"wells-builder","namespace":"csnr-devops-lab-deploy"},"spec":{"failedBuildsHistoryLimit":5,"nodeSelector":null,"output":{"to":{"kind":"ImageStreamTag","name":"wells-builder:latest"}},"postCommit":{},"resources":{},"runPolicy":"Serial","source":{"contextDir":"wells","git":{"uri":"https://github.com/stephenhillier/groundwater.git"},"type":"Git"},"strategy":{"dockerStrategy":{"from":{"kind":"ImageStreamTag","name":"golang:1.10-alpine","namespace":"csnr-devops-lab-deploy"}},"type":"Docker"},"successfulBuildsHistoryLimit":5,"triggers":[{"type":"ConfigChange"},{"imageChange":{},"type":"ImageChange"}]},"status":{"lastVersion":0}}
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: wells-builder
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wells-builder:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: wells
+      git:
+        uri: https://github.com/stephenhillier/groundwater.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: golang:1.10-alpine
+          namespace: csnr-devops-lab-deploy
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"image.openshift.io/v1","kind":"ImageStream","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"generation":3,"labels":{"app-name":"groundwater"},"name":"api","namespace":"csnr-devops-lab-deploy"},"spec":{"lookupPolicy":{"local":false},"tags":[{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/api:dev"},"generation":3,"importPolicy":{},"name":"dev","referencePolicy":{"type":"Source"}},{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/api:latest"},"generation":null,"importPolicy":{},"name":"latest","referencePolicy":{"type":""}}]},"status":{"dockerImageRepository":""}}
+      openshift.io/generated-by: OpenShiftNewBuild
+      openshift.io/image.dockerRepositoryCheck: 2018-09-20T06:42:31Z
+    creationTimestamp: null
+    generation: 3
+    labels:
+      app-name: groundwater
+    name: api
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api:dev
+      generation: 3
+      importPolicy: {}
+      name: dev
+      referencePolicy:
+        type: Source
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"image.openshift.io/v1","kind":"ImageStream","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"generation":1,"labels":{"app-name":"groundwater"},"name":"api-builder","namespace":"csnr-devops-lab-deploy"},"spec":{"lookupPolicy":{"local":false},"tags":[{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/api-builder:latest"},"generation":null,"importPolicy":{},"name":"latest","referencePolicy":{"type":""}}]},"status":{"dockerImageRepository":""}}
+      openshift.io/generated-by: OpenShiftNewBuild
+      openshift.io/image.dockerRepositoryCheck: 2018-09-20T06:42:31Z
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app-name: groundwater
+    name: api-builder
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api-builder:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"image.openshift.io/v1","kind":"ImageStream","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"generation":2,"labels":{"app-name":"groundwater"},"name":"aquifers","namespace":"csnr-devops-lab-deploy"},"spec":{"lookupPolicy":{"local":false},"tags":[{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers:dev"},"generation":2,"importPolicy":{},"name":"dev","referencePolicy":{"type":"Source"}},{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers:latest"},"generation":null,"importPolicy":{},"name":"latest","referencePolicy":{"type":""}}]},"status":{"dockerImageRepository":""}}
+      openshift.io/generated-by: OpenShiftNewBuild
+      openshift.io/image.dockerRepositoryCheck: 2018-09-20T06:42:31Z
+    creationTimestamp: null
+    generation: 3
+    labels:
+      app-name: groundwater
+    name: aquifers
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers:dev
+      generation: 3
+      importPolicy: {}
+      name: dev
+      referencePolicy:
+        type: Source
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"image.openshift.io/v1","kind":"ImageStream","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"generation":1,"labels":{"app-name":"groundwater"},"name":"aquifers-builder","namespace":"csnr-devops-lab-deploy"},"spec":{"lookupPolicy":{"local":false},"tags":[{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers-builder:latest"},"generation":null,"importPolicy":{},"name":"latest","referencePolicy":{"type":""}}]},"status":{"dockerImageRepository":""}}
+      openshift.io/generated-by: OpenShiftNewBuild
+      openshift.io/image.dockerRepositoryCheck: 2018-09-20T06:42:31Z
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app-name: groundwater
+    name: aquifers-builder
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers-builder:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app-name: groundwater
+    name: eventstore
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/eventstore:dev
+      generation: 2
+      importPolicy: {}
+      name: dev
+      referencePolicy:
+        type: Source
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/eventstore:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app-name: groundwater
+    name: eventstore-builder
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/eventstore-builder:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"image.openshift.io/v1","kind":"ImageStream","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"generation":2,"labels":{"app-name":"groundwater"},"name":"wells","namespace":"csnr-devops-lab-deploy"},"spec":{"lookupPolicy":{"local":false},"tags":[{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells:dev"},"generation":2,"importPolicy":{},"name":"dev","referencePolicy":{"type":"Source"}},{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells:latest"},"generation":null,"importPolicy":{},"name":"latest","referencePolicy":{"type":""}}]},"status":{"dockerImageRepository":""}}
+      openshift.io/generated-by: OpenShiftNewBuild
+      openshift.io/image.dockerRepositoryCheck: 2018-09-20T06:42:31Z
+    creationTimestamp: null
+    generation: 3
+    labels:
+      app-name: groundwater
+    name: wells
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells:dev
+      generation: 3
+      importPolicy: {}
+      name: dev
+      referencePolicy:
+        type: Source
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"image.openshift.io/v1","kind":"ImageStream","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewBuild"},"creationTimestamp":null,"generation":1,"labels":{"app-name":"groundwater"},"name":"wells-builder","namespace":"csnr-devops-lab-deploy"},"spec":{"lookupPolicy":{"local":false},"tags":[{"annotations":null,"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells-builder:latest"},"generation":null,"importPolicy":{},"name":"latest","referencePolicy":{"type":""}}]},"status":{"dockerImageRepository":""}}
+      openshift.io/generated-by: OpenShiftNewBuild
+      openshift.io/image.dockerRepositoryCheck: 2018-09-20T06:42:31Z
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app-name: groundwater
+    name: wells-builder
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells-builder:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"generation":1,"labels":{"app":"wells","app-name":"groundwater"},"name":"api","namespace":"csnr-devops-lab-deploy"},"spec":{"replicas":2,"selector":{"app":"wells","app-name":"groundwater","deploymentconfig":"api"},"strategy":{"activeDeadlineSeconds":21600,"resources":{"limits":{"cpu":"200m","memory":"200Mi"},"requests":{"cpu":"100m","memory":"100Mi"}},"rollingParams":{"intervalSeconds":1,"maxSurge":"25%","maxUnavailable":"25%","timeoutSeconds":600,"updatePeriodSeconds":1},"type":"Rolling"},"template":{"metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"wells","app-name":"groundwater","deploymentconfig":"api"}},"spec":{"containers":[{"image":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/api","imagePullPolicy":"IfNotPresent","name":"api","resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}},"test":false,"triggers":[{"type":"ConfigChange"},{"imageChangeParams":{"automatic":true,"containerNames":["api"],"from":{"kind":"ImageStreamTag","name":"api:dev","namespace":"csnr-devops-lab-deploy"}},"type":"ImageChange"}]},"status":{"availableReplicas":0,"latestVersion":0,"observedGeneration":0,"replicas":0,"unavailableReplicas":0,"updatedReplicas":0}}
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 8
+    labels:
+      app: wells
+      app-name: groundwater
+    name: api
+  spec:
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: api
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: wells
+          app-name: groundwater
+          deploymentconfig: api
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api
+          imagePullPolicy: IfNotPresent
+          name: api
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - api
+        from:
+          kind: ImageStreamTag
+          name: api:dev
+          namespace: csnr-devops-lab-deploy
+        lastTriggeredImage: docker-registry.default.svc:5000/csnr-devops-lab-deploy/api
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"generation":1,"labels":{"app":"wells","app-name":"groundwater"},"name":"aquifers","namespace":"csnr-devops-lab-deploy"},"spec":{"replicas":2,"selector":{"app":"wells","app-name":"groundwater","deploymentconfig":"aquifers"},"strategy":{"activeDeadlineSeconds":21600,"resources":{"limits":{"cpu":"200m","memory":"200Mi"},"requests":{"cpu":"100m","memory":"100Mi"}},"rollingParams":{"intervalSeconds":1,"maxSurge":"25%","maxUnavailable":"25%","timeoutSeconds":600,"updatePeriodSeconds":1},"type":"Rolling"},"template":{"metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"wells","app-name":"groundwater","deploymentconfig":"aquifers"}},"spec":{"containers":[{"image":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers","imagePullPolicy":"IfNotPresent","name":"aquifers","resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}},"test":false,"triggers":[{"type":"ConfigChange"},{"imageChangeParams":{"automatic":true,"containerNames":["aquifers"],"from":{"kind":"ImageStreamTag","name":"aquifers:dev","namespace":"csnr-devops-lab-deploy"}},"type":"ImageChange"}]},"status":{"availableReplicas":0,"latestVersion":0,"observedGeneration":0,"replicas":0,"unavailableReplicas":0,"updatedReplicas":0}}
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 6
+    labels:
+      app: wells
+      app-name: groundwater
+    name: aquifers
+  spec:
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: aquifers
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: wells
+          app-name: groundwater
+          deploymentconfig: aquifers
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers
+          imagePullPolicy: IfNotPresent
+          name: aquifers
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - aquifers
+        from:
+          kind: ImageStreamTag
+          name: aquifers:dev
+          namespace: csnr-devops-lab-deploy
+        lastTriggeredImage: docker-registry.default.svc:5000/csnr-devops-lab-deploy/aquifers
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app: wells
+      app-name: groundwater
+    name: eventstore
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: eventstore
+      app-name: groundwater
+      deploymentconfig: eventstore
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: eventstore
+          app-name: groundwater
+          deploymentconfig: eventstore
+      spec:
+        containers:
+        - image: 172.50.0.2:5000/csnr-devops-lab-deploy/eventstore
+          imagePullPolicy: IfNotPresent
+          name: eventstore
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - eventstore
+        from:
+          kind: ImageStreamTag
+          name: eventstore:dev
+          namespace: csnr-devops-lab-deploy
+        lastTriggeredImage: 172.50.0.2:5000/csnr-devops-lab-deploy/eventstore
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"generation":1,"labels":{"app":"wells","app-name":"groundwater"},"name":"wells","namespace":"csnr-devops-lab-deploy"},"spec":{"replicas":2,"selector":{"app":"wells","app-name":"groundwater","deploymentconfig":"wells"},"strategy":{"activeDeadlineSeconds":21600,"resources":{"limits":{"cpu":"200m","memory":"200Mi"},"requests":{"cpu":"100m","memory":"100Mi"}},"rollingParams":{"intervalSeconds":1,"maxSurge":"25%","maxUnavailable":"25%","timeoutSeconds":600,"updatePeriodSeconds":1},"type":"Rolling"},"template":{"metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"wells","app-name":"groundwater","deploymentconfig":"wells"}},"spec":{"containers":[{"image":"docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells","imagePullPolicy":"IfNotPresent","name":"wells","resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}},"test":false,"triggers":[{"type":"ConfigChange"},{"imageChangeParams":{"automatic":true,"containerNames":["wells"],"from":{"kind":"ImageStreamTag","name":"wells:dev","namespace":"csnr-devops-lab-deploy"}},"type":"ImageChange"}]},"status":{"availableReplicas":0,"latestVersion":0,"observedGeneration":0,"replicas":0,"unavailableReplicas":0,"updatedReplicas":0}}
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 12
+    labels:
+      app: wells
+      app-name: groundwater
+    name: wells
+  spec:
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: wells
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: wells
+          app-name: groundwater
+          deploymentconfig: wells
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells
+          imagePullPolicy: IfNotPresent
+          name: wells
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - wells
+        from:
+          kind: ImageStreamTag
+          name: wells:dev
+          namespace: csnr-devops-lab-deploy
+        lastTriggeredImage: docker-registry.default.svc:5000/csnr-devops-lab-deploy/wells
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"creationTimestamp":null,"labels":{"app":"wells","app-name":"groundwater"},"name":"api","namespace":"csnr-devops-lab-deploy"},"spec":{"ports":[{"port":8000,"protocol":"TCP","targetPort":8000}],"selector":{"app":"wells","app-name":"groundwater","deploymentconfig":"api"},"sessionAffinity":"None","type":"ClusterIP"},"status":{"loadBalancer":{}}}
+    creationTimestamp: null
+    labels:
+      app: wells
+      app-name: groundwater
+    name: api
+  spec:
+    ports:
+    - port: 8000
+      protocol: TCP
+      targetPort: 8000
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: api
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"creationTimestamp":null,"labels":{"app":"wells","app-name":"groundwater"},"name":"aquifers","namespace":"csnr-devops-lab-deploy"},"spec":{"ports":[{"port":7778,"protocol":"TCP","targetPort":7778}],"selector":{"app":"wells","app-name":"groundwater","deploymentconfig":"aquifers"},"sessionAffinity":"None","type":"ClusterIP"},"status":{"loadBalancer":{}}}
+    creationTimestamp: null
+    labels:
+      app: wells
+      app-name: groundwater
+    name: aquifers
+  spec:
+    ports:
+    - port: 7778
+      protocol: TCP
+      targetPort: 7778
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: aquifers
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app-name: groundwater
+    name: eventstore
+  spec:
+    ports:
+    - port: 9000
+      protocol: TCP
+      targetPort: 9000
+    selector:
+      app: eventstore
+      app-name: groundwater
+      deploymentconfig: eventstore
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"creationTimestamp":null,"labels":{"app":"wells","app-name":"groundwater"},"name":"wells","namespace":"csnr-devops-lab-deploy"},"spec":{"ports":[{"port":7777,"protocol":"TCP","targetPort":7777}],"selector":{"app":"wells","app-name":"groundwater","deploymentconfig":"wells"},"sessionAffinity":"None","type":"ClusterIP"},"status":{"loadBalancer":{}}}
+    creationTimestamp: null
+    labels:
+      app: wells
+      app-name: groundwater
+    name: wells
+  spec:
+    ports:
+    - port: 7777
+      protocol: TCP
+      targetPort: 7777
+    selector:
+      app: wells
+      app-name: groundwater
+      deploymentconfig: wells
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
