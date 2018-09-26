@@ -90,7 +90,7 @@ func main() {
 
 	log.Print("Wells client ready")
 
-	eventConn, err := grpc.Dial("wells:9000", grpc.WithInsecure())
+	eventConn, err := grpc.Dial("eventstore:9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
