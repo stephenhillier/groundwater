@@ -118,8 +118,8 @@ func main() {
 	// Define routes
 	api.router.Route("/v1", func(r chi.Router) {
 		r.Route("/aquifers", func(r chi.Router) {
-			r.Get("/{id}", api.GetAquifer)
 			r.Post("/", api.CreateAquifer)
+			r.Get("/{id}", api.GetAquifer)
 		})
 	})
 
