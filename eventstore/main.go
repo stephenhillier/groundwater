@@ -6,8 +6,6 @@ import (
 	"log"
 	"net"
 
-	"github.com/nats-io/go-nats/encoders/protobuf"
-
 	nats "github.com/nats-io/go-nats"
 	pb "github.com/stephenhillier/groundwater/eventstore/proto/events"
 	grpc "google.golang.org/grpc"
@@ -56,7 +54,7 @@ func main() {
 		log.Println("Error connecting to NATS:", err)
 	}
 
-	c, err := nats.NewEncodedConn(nc, protobuf.PROTOBUF_ENCODER)
+	c, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
 	defer c.Close()
 	defer nc.Close()
 

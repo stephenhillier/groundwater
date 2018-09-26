@@ -61,7 +61,14 @@ func (api *API) CreateAquifer(w http.ResponseWriter, req *http.Request) {
 		EventType:     "aquifer-create",
 		EventData:     "A1",
 	}
-	api.events.CreateEvent(context.Background(), &event)
+	log.Println("sending request to event service")
+	resp, err := api.events.CreateEvent(context.Background(), &event)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+	log.Println(resp)
 
 	w.WriteHeader(201)
 	w.Write([]byte("Success"))

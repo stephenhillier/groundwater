@@ -16,12 +16,11 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:712c928c01f1b31e39fdf20ab6f9225699b57146d845aeb4f5144dbfedc9b3ad"
+  digest = "1:4ce94f3d2074662c04677db471456feb56078244ebcfe3789e6e95901c085bc5"
   name = "github.com/nats-io/go-nats"
   packages = [
     ".",
     "encoders/builtin",
-    "encoders/protobuf",
     "util",
   ]
   pruneopts = "UT"
@@ -42,7 +41,7 @@
   name = "github.com/stephenhillier/groundwater"
   packages = ["wells/proto/wells"]
   pruneopts = "UT"
-  revision = "9521c0e3bc12fc7e84303b06948cf25c6c2db0b2"
+  revision = "e1a01e6ca736b2be3e1113d6d91b651fb72018a5"
 
 [[projects]]
   branch = "master"
@@ -140,7 +139,6 @@
   input-imports = [
     "github.com/golang/protobuf/proto",
     "github.com/nats-io/go-nats",
-    "github.com/nats-io/go-nats/encoders/protobuf",
     "github.com/stephenhillier/groundwater/wells/proto/wells",
     "golang.org/x/net/context",
     "google.golang.org/grpc",

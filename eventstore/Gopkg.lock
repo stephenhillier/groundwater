@@ -16,12 +16,11 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:712c928c01f1b31e39fdf20ab6f9225699b57146d845aeb4f5144dbfedc9b3ad"
+  digest = "1:4ce94f3d2074662c04677db471456feb56078244ebcfe3789e6e95901c085bc5"
   name = "github.com/nats-io/go-nats"
   packages = [
     ".",
     "encoders/builtin",
-    "encoders/protobuf",
     "util",
   ]
   pruneopts = "UT"
@@ -132,7 +131,6 @@
   input-imports = [
     "github.com/golang/protobuf/proto",
     "github.com/nats-io/go-nats",
-    "github.com/nats-io/go-nats/encoders/protobuf",
     "golang.org/x/net/context",
     "google.golang.org/grpc",
   ]

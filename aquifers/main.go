@@ -6,11 +6,10 @@ import (
 	"log"
 	"net"
 
-	"github.com/nats-io/go-nats/encoders/protobuf"
+	"google.golang.org/grpc"
 
 	nats "github.com/nats-io/go-nats"
 	pb "github.com/stephenhillier/groundwater/aquifers/proto/aquifers"
-	"google.golang.org/grpc"
 )
 
 // Repository is the set of methods available to a collection of aquifer data
@@ -64,10 +63,12 @@ func main() {
 		log.Println("Error connecting to NATS:", err)
 	}
 
-	ncPb, err := nats.NewEncodedConn(nc, protobuf.PROTOBUF_ENCODER)
+	ncPb, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
 	if err != nil {
 		log.Println("Error created encoded connection:", err)
 	}
+	defer ncPb.Close()
+	defer nc.Close()
 
 	go listenForEvents(ncPb)
 
@@ -90,7 +91,7 @@ func listenForEvents(c *nats.EncodedConn) {
 	c.Subscribe("aquifer-create", func(m *nats.Msg) {
 		ch <- m
 	})
-
+	log.Println("Listening for events on aquifer-create")
 	for {
 		msg := <-ch
 		log.Println(string(msg.Data))

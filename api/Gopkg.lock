@@ -44,7 +44,7 @@
     "wells/proto/wells",
   ]
   pruneopts = "UT"
-  revision = "9521c0e3bc12fc7e84303b06948cf25c6c2db0b2"
+  revision = "e1a01e6ca736b2be3e1113d6d91b651fb72018a5"
 
 [[projects]]
   branch = "master"
