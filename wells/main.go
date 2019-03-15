@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 
+	nats "github.com/nats-io/go-nats"
 	pb "github.com/stephenhillier/groundwater/wells/proto/wells"
 	"google.golang.org/grpc"
 )
@@ -40,11 +41,15 @@ func (repo *WellRepository) Search(req *pb.WellSearchRequest) ([]*pb.Well, error
 	return search, nil
 }
 
+
+func (repo *WellRepository) CreateWell(pb.)
+
 // service represents a Wells service with a repository of wells.
 // The repository can be anything (a database, collection of fake objects, etc)
 // as long as it implements methods defined in the Repository interface.
 type service struct {
-	repo Repository
+	repo     Repository
+	messages *nats.EncodedConn
 }
 
 func (s *service) GetWells(ctx context.Context, req *pb.GetRequest) (*pb.ListResponse, error) {
@@ -78,12 +83,23 @@ func main() {
 		log.Fatalf("Failed to start listener: %v", err)
 	}
 
+	nc, err := nats.Connect("nats:4222")
+	if err != nil {
+		log.Println("Error connecting to NATS:", err)
+	}
+
+	ncPb, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
+	if err != nil {
+		log.Println("Error created encoded connection:", err)
+	}
+	defer ncPb.Close()
+	defer nc.Close()
+
+	log.Print("Events client ready")
+
 	srv := grpc.NewServer()
-
 	pb.RegisterWellServiceServer(srv, &service{repo})
-
 	log.Println("Listening on port", port)
-
 	if err := srv.Serve(listen); err != nil {
 		log.Fatalf("Failed to start server: %s", err)
 	}

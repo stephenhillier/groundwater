@@ -6,6 +6,13 @@ service WellService {
   rpc Health(GetRequest) returns (HealthResponse) {}
   rpc GetWells(GetRequest) returns (ListResponse) {}
   rpc FindWells(WellSearchRequest) returns (ListResponse) {}
+  rpc CreateWell(WellRequest) returns (Well) {}
+}
+
+message WellRequest {
+  int32 aquifer = 1;
+  string owner = 2;
+  double depth = 3;
 }
 
 message Well {
