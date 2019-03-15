@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	wellsEndpoint = flag.String("wells_endpoint", "localhost:7777", "wells endpoint")
+	wellsEndpoint = flag.String("wells_endpoint", "wells:7777", "wells endpoint")
 )
 
 func run() error {
