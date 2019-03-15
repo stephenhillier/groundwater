@@ -88,10 +88,10 @@ func main() {
 
 func listenForEvents(c *nats.EncodedConn) {
 	ch := make(chan *nats.Msg, 64)
-	c.Subscribe("aquifer-create", func(m *nats.Msg) {
+	c.Subscribe("well-create", func(m *nats.Msg) {
 		ch <- m
 	})
-	log.Println("Listening for events on aquifer-create")
+	log.Println("Listening for events on well-create")
 	for {
 		msg := <-ch
 		log.Println(string(msg.Data))

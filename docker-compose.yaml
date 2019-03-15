@@ -1,0 +1,29 @@
+version: '3'
+services:
+  nats:
+    image: nats:1.4.1-linux
+    hostname: nats
+    ports:
+      - "4222:4222"
+  wells:
+    build: ./wells
+    hostname: wells
+    ports:
+      - "7777:7777"
+    depends_on: 
+      - "nats"
+  aquifers:
+    build: ./aquifers
+    hostname: aquifers
+    ports:
+      - "7778:7778"
+    depends_on: 
+      - "nats"
+  wells-gateway:
+    build: ./wells/wellsapi
+    hostname: wellsapi
+    ports:
+      - "8000:8000"
+    depends_on: 
+      - "nats"
+      - "wells"

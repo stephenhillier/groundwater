@@ -12,7 +12,6 @@ import (
 	"google.golang.org/grpc"
 
 	aquifers "github.com/stephenhillier/groundwater/aquifers/proto/aquifers"
-	events "github.com/stephenhillier/groundwater/eventstore/proto/events"
 	wells "github.com/stephenhillier/groundwater/wells/proto/wells"
 )
 
@@ -21,7 +20,6 @@ type API struct {
 	router   *chi.Mux
 	aquifers aquifers.AquiferServiceClient
 	wells    wells.WellServiceClient
-	events   events.EventServiceClient
 }
 
 // GetAquifer retrieves an aquifer from the Aquifers service (by ID)
@@ -51,29 +49,6 @@ func (api *API) GetAquifer(w http.ResponseWriter, req *http.Request) {
 	render.JSON(w, req, aq)
 }
 
-// CreateAquifer publishes a request to create a new aquifer to the event store
-func (api *API) CreateAquifer(w http.ResponseWriter, req *http.Request) {
-
-	event := events.Event{
-		AggregateId:   "aaa",
-		AggregateType: "aquifers",
-		EventId:       "aaa1",
-		EventType:     "aquifer-create",
-		EventData:     "A1",
-	}
-	log.Println("sending request to event service")
-	resp, err := api.events.CreateEvent(context.Background(), &event)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(500)
-		return
-	}
-	log.Println(resp)
-
-	w.WriteHeader(201)
-	w.Write([]byte("Success"))
-}
-
 func main() {
 	router := chi.NewRouter()
 
@@ -97,20 +72,11 @@ func main() {
 
 	log.Print("Wells client ready")
 
-	eventConn, err := grpc.Dial("eventstore:9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatal(err)
-	}
-	eventClient := events.NewEventServiceClient(eventConn)
-
-	log.Print("Events client ready")
-
 	// Create an instance of the API with a router and the service clients
 	api := &API{
 		router,
 		aquiferClient,
 		wellClient,
-		eventClient,
 	}
 
 	// Set middleware
@@ -127,6 +93,9 @@ func main() {
 		r.Route("/aquifers", func(r chi.Router) {
 			r.Post("/", api.CreateAquifer)
 			r.Get("/{id}", api.GetAquifer)
+		})
+		r.Route("/wells", func(r chi.Router) {
+			r.Post("/", api.wells.CreateWell)
 		})
 	})
 

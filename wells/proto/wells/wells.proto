@@ -2,11 +2,18 @@ syntax = "proto3";
 
 package go.srv.wells;
 
+import "google/api/annotations.proto";
+
 service WellService {
   rpc Health(GetRequest) returns (HealthResponse) {}
   rpc GetWells(GetRequest) returns (ListResponse) {}
   rpc FindWells(WellSearchRequest) returns (ListResponse) {}
-  rpc CreateWell(WellRequest) returns (Well) {}
+  rpc CreateWell(WellRequest) returns (Well) {
+    option (google.api.http) = {
+      post: "/v1/wells"
+      body: "*"
+    };
+  }
 }
 
 message WellRequest {

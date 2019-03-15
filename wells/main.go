@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 
 	nats "github.com/nats-io/go-nats"
@@ -15,6 +16,7 @@ import (
 type Repository interface {
 	GetAll() []*pb.Well
 	Search(*pb.WellSearchRequest) ([]*pb.Well, error)
+	CreateWell(req *pb.WellRequest) (pb.Well, error)
 }
 
 // WellRepository is a stand-in for a datastore
@@ -41,8 +43,21 @@ func (repo *WellRepository) Search(req *pb.WellSearchRequest) ([]*pb.Well, error
 	return search, nil
 }
 
+// CreateWell creates a new well from a WellRequest and returns a Well
+func (repo *WellRepository) CreateWell(req *pb.WellRequest) (pb.Well, error) {
+	id := rand.Intn(9999)
 
-func (repo *WellRepository) CreateWell(pb.)
+	well := pb.Well{
+		Id:      int32(id),
+		Aquifer: req.Aquifer,
+		Depth:   req.Depth,
+		Owner:   req.Owner,
+	}
+
+	repo.wells = append(repo.wells, &well)
+
+	return well, nil
+}
 
 // service represents a Wells service with a repository of wells.
 // The repository can be anything (a database, collection of fake objects, etc)
@@ -60,6 +75,20 @@ func (s *service) GetWells(ctx context.Context, req *pb.GetRequest) (*pb.ListRes
 func (s *service) FindWells(ctx context.Context, req *pb.WellSearchRequest) (*pb.ListResponse, error) {
 	wells, err := s.repo.Search(req)
 	return &pb.ListResponse{Wells: wells}, err
+}
+
+func (s *service) CreateWell(ctx context.Context, req *pb.WellRequest) (*pb.Well, error) {
+	well, err := s.repo.CreateWell(req)
+	if err != nil {
+		return &well, err
+	}
+
+	err = s.messages.Publish(
+		"well-created",
+		well,
+	)
+
+	return &well, err
 }
 
 func (s *service) Health(ctx context.Context, req *pb.GetRequest) (*pb.HealthResponse, error) {
@@ -98,7 +127,7 @@ func main() {
 	log.Print("Events client ready")
 
 	srv := grpc.NewServer()
-	pb.RegisterWellServiceServer(srv, &service{repo})
+	pb.RegisterWellServiceServer(srv, &service{repo, ncPb})
 	log.Println("Listening on port", port)
 	if err := srv.Serve(listen); err != nil {
 		log.Fatalf("Failed to start server: %s", err)
