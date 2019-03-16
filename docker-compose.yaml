@@ -27,3 +27,10 @@ services:
     depends_on: 
       - "nats"
       - "wells"
+  run-tests:
+    image: stephenhillier/apitest
+    command: -f /app/tests.apitest.yaml -e host=http://wells-gateway:8000/v1
+    volumes:
+    - ./:/app
+    depends_on:
+      - "wells-gateway"

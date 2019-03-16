@@ -1,0 +1,51 @@
+environment:
+  vars:
+    host: http://localhost:8000/v1
+  headers:
+    Content-Type: application/json
+requests:
+  - name: Create well
+    url: "{{host}}/wells"
+    method: post
+    body:
+      owner: "Johnny"
+      depth: 10.1
+      aquifer: 1
+    expect:
+      status: 200
+  - name: Create well 2
+    url: "{{host}}/wells"
+    method: post
+    body:
+      owner: "Johnny"
+      depth: 10.1
+      aquifer: 1
+    expect:
+      status: 200
+  - name: Create well 3
+    url: "{{host}}/wells"
+    method: post
+    body:
+      owner: "Johnny"
+      depth: 10.1
+      aquifer: 1
+    expect:
+      status: 200
+  - name: Create well 4
+    url: "{{host}}/wells"
+    method: post
+    body:
+      owner: "Johnny"
+      depth: 10.1
+      aquifer: 1
+    expect:
+      status: 200
+  - name: Create well 5
+    url: "{{host}}/wells"
+    method: post
+    body:
+      owner: "Johnny"
+      depth: 10.1
+      aquifer: 1
+    expect:
+      status: 200
