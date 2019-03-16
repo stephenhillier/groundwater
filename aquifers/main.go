@@ -12,7 +12,7 @@ import (
 	pb "github.com/stephenhillier/groundwater/aquifers/proto/aquifers"
 )
 
-// Repository is the set of methods available to a collection of aquifer data
+// Repository is the set of methods used to work with a collection of aquifers
 type Repository interface {
 	Get(int32) (*pb.Aquifer, error)
 }
@@ -36,10 +36,14 @@ func (repo *AquiferRepository) Get(id int32) (*pb.Aquifer, error) {
 	return aq, nil
 }
 
+// service represents the aquifers service; the service is created with a Repository that manages
+// an aquifer collection. It will receive rpc methods that can be called by an aquifer client.
+// the client can be created by importing "github.com/stephenhillier/groundwater/aquifers/proto/aquifers"
 type service struct {
 	repo Repository
 }
 
+// GetAquifer returns an aquifer by ID
 func (s *service) GetAquifer(ctx context.Context, req *pb.SingleAquiferRequest) (*pb.Aquifer, error) {
 	aq, err := s.repo.Get(req.Id)
 	if err != nil {
@@ -51,6 +55,7 @@ func (s *service) GetAquifer(ctx context.Context, req *pb.SingleAquiferRequest) 
 func main() {
 	port := 7778
 
+	// sample collection of aquifers that will be used to populate a Repository
 	sampleAquifers := []*pb.Aquifer{
 		&pb.Aquifer{Id: 1, Name: "Aquifer A23", Volume: 543.21},
 		&pb.Aquifer{Id: 2, Name: "Aquifer A60", Volume: 262.85},
@@ -58,6 +63,8 @@ func main() {
 
 	repo := &AquiferRepository{sampleAquifers}
 
+	// messages are published and subscribed to using NATS: open a NATS connection and then use
+	// an EncodedConn wrapper to serialize the messages.
 	nc, err := nats.Connect("nats:4222")
 	if err != nil {
 		log.Println("Error connecting to NATS:", err)
@@ -70,8 +77,13 @@ func main() {
 	defer ncPb.Close()
 	defer nc.Close()
 
+	// after opening the NATS connection, start listening for new
+	// messages.  The subjects to subscribe to are defined within listenForEvents
 	go listenForEvents(ncPb)
 
+	// this service is accessible via gRPC. Start listening on a port
+	// and then register the aquifer service; see proto definitions in
+	// ./proto/aquifers/aquifers.proto
 	listen, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatal(err)
@@ -86,15 +98,18 @@ func main() {
 	}
 }
 
+// listenForEvents creates channels and then subscribes
+// to message subjects, placing messages on the channel when received.
+// In this example, we are interested in messages about wells that may
+// have been created in or near an aquifer.
 func listenForEvents(c *nats.EncodedConn) {
 	ch := make(chan *nats.Msg, 64)
-	c.Subscribe("well-create", func(m *nats.Msg) {
+	c.Subscribe("well-created", func(m *nats.Msg) {
 		ch <- m
 	})
 	log.Println("Listening for events on well-create")
 	for {
 		msg := <-ch
-		log.Println(string(msg.Data))
+		log.Println("received well created notification:", string(msg.Data))
 	}
-
 }

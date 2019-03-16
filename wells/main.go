@@ -83,6 +83,8 @@ func (s *service) CreateWell(ctx context.Context, req *pb.WellRequest) (*pb.Well
 		return &well, err
 	}
 
+	log.Printf("created well %v, publishing to stream...", well.Id)
+
 	err = s.messages.Publish(
 		"well-created",
 		well,

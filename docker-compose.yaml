@@ -12,13 +12,13 @@ services:
       - "7777:7777"
     depends_on: 
       - "nats"
-  # aquifers:
-  #   build: ./aquifers
-  #   hostname: aquifers
-  #   ports:
-  #     - "7778:7778"
-  #   depends_on: 
-  #     - "nats"
+  aquifers:
+    build: ./aquifers
+    hostname: aquifers
+    ports:
+      - "7778:7778"
+    depends_on: 
+      - "nats"
   wells-gateway:
     build: ./wells/wellsapi
     hostname: wellsapi
