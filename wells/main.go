@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"time"
 
 	nats "github.com/nats-io/go-nats"
 	pb "github.com/stephenhillier/groundwater/wells/proto/wells"
@@ -78,6 +79,10 @@ func (s *service) FindWells(ctx context.Context, req *pb.WellSearchRequest) (*pb
 }
 
 func (s *service) CreateWell(ctx context.Context, req *pb.WellRequest) (*pb.Well, error) {
+
+	duration := 1 * time.Second
+	time.Sleep(duration)
+
 	well, err := s.repo.CreateWell(req)
 	if err != nil {
 		return &well, err
